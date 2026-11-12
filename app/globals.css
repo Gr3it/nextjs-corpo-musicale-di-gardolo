@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-brand: var(--brand);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+}
+
+/*
+ * Palette (decisa con la banda): un solo accento, il rosso dello sfondo del logo,
+ * su bianco puro. Il pannello è un bianco appena virato verso il rosso, per staccare le sezioni.
+ * Grigi e testo sono mescolati dall'inchiostro: nessun altro colore.
+ * Forme: angoli vivi ovunque; solo pulsanti e filtri sono a pillola (rounded-full).
+ */
+:root {
+  --brand: #5d0b19;
+  --white: #ffffff;
+  --panel: #faf5f5;
+  --ink: #1c1214;
+
+  --background: var(--white);
+  --foreground: var(--ink);
+  --card: var(--white);
+  --card-foreground: var(--ink);
+  --popover: var(--white);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: var(--white);
+  --secondary: var(--panel);
+  --secondary-foreground: var(--ink);
+  --muted: var(--panel);
+  --muted-foreground: color-mix(in srgb, var(--ink) 66%, var(--white));
+  --accent: var(--panel);
+  --accent-foreground: var(--brand);
+  --destructive: var(--brand);
+  --border: color-mix(in srgb, var(--brand) 16%, var(--white));
+  --input: color-mix(in srgb, var(--brand) 16%, var(--white));
+  --ring: var(--brand);
+  --radius: 0px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-heading text-balance;
+  }
+  ::selection {
+    background: var(--brand);
+    color: var(--white);
+  }
+}
+
+/* Filetto affusolato con le punte, come le linee ai lati di "1906" nel logo. */
+@utility rule-tapered {
+  height: 2px;
+  background: linear-gradient(to right, transparent, currentColor 18%, currentColor 82%, transparent);
+  clip-path: polygon(0 50%, 12% 0, 88% 0, 100% 50%, 88% 100%, 12% 100%);
+}
+
+/* Etichetta maiuscola spaziata, come "CORPO MUSICALE" nel logo. */
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
