@@ -62,7 +62,8 @@ export async function Footer() {
 
         <nav aria-label="Pagine del sito">
           <h2 className="eyebrow mb-5 text-white/70">Il sito</h2>
-          <ul className="grid grid-cols-2 gap-x-6 gap-y-1">
+          {/* Colonne riempite dall'alto in basso: si leggono nello stesso ordine del menu. */}
+          <ul className="grid grid-flow-col grid-cols-2 grid-rows-3 gap-x-6 gap-y-1">
             {mainNav.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="underline-offset-4 hover:underline">
