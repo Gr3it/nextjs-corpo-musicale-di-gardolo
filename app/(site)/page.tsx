@@ -6,9 +6,7 @@ import { FeaturedEvent } from "@/components/events/featured-event"
 import { Band } from "@/components/page-header"
 import { Logo } from "@/components/site/logo"
 import { SocialLinks } from "@/components/site/social-links"
-import { buttonVariants } from "@/components/ui/button"
 import { getHomePage, getSiteSettings, getUpcomingEvents } from "@/lib/content"
-import { cn } from "@/lib/utils"
 
 export default async function HomePage() {
   const [home, settings] = await Promise.all([getHomePage(), getSiteSettings()])
@@ -24,17 +22,6 @@ export default async function HomePage() {
           {home.heroSottotitolo && (
             <p className="mt-6 max-w-xl text-xl leading-relaxed text-muted-foreground">{home.heroSottotitolo}</p>
           )}
-          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <Link href="/eventi" className={cn(buttonVariants({ size: "lg" }), "h-12 px-7 text-base")}>
-              Calendario eventi
-            </Link>
-            <Link
-              href="/corsi"
-              className="inline-flex items-center gap-2 text-base font-semibold text-brand underline-offset-8 hover:underline"
-            >
-              Corsi di musica <ArrowRight className="size-4" />
-            </Link>
-          </div>
         </div>
         <Logo variant="white" priority className="order-1 mx-auto w-48 sm:w-60 md:order-2 md:w-full" />
       </section>
