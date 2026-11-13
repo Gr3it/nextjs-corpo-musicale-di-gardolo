@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Image as SanityNextImage } from "next-sanity/image"
 
 import { getSiteSettings } from "@/lib/content"
-import { imageUrl } from "@/lib/image"
+import { imageSize, imageUrl } from "@/lib/image"
 import { mainNav } from "@/lib/site"
 
 import { Logo } from "./logo"
@@ -19,8 +19,9 @@ export async function Footer() {
   const [s, year] = await Promise.all([getSiteSettings(), currentYear()])
   return (
     <footer className="mt-auto bg-brand text-white">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 pt-16 pb-12 sm:grid-cols-2 lg:grid-cols-[13rem_1fr_1fr_1fr]">
-        <Logo variant="red" className="w-36 lg:w-full" />
+      {/* Su desktop il logo occupa due righe: a destra le tre colonne e, sotto, i sostenitori. */}
+      <div className="mx-auto grid max-w-6xl gap-x-12 gap-y-8 px-4 pt-16 pb-12 sm:grid-cols-2 lg:grid-cols-[15rem_1fr_1fr_1fr]">
+        <Logo variant="red" className="w-40 lg:row-span-2 lg:w-full lg:self-center" />
 
         <div>
           <h2 className="eyebrow mb-5 text-white/70">Sede e prove</h2>
@@ -71,39 +72,48 @@ export async function Footer() {
             ))}
           </ul>
         </nav>
-      </div>
 
-      {s.partner.length > 0 && (
-        <div className="mx-auto max-w-6xl px-4">
-          <ul className="flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-white/15 py-6 text-sm text-white/75">
-            <li className="eyebrow text-white/60">Con il sostegno di</li>
-            {s.partner.map((p) => {
-              const content = p.logo?.asset ? (
-                <SanityNextImage
-                  src={imageUrl(p.logo)}
-                  alt={p.nome}
-                  width={160}
-                  height={64}
-                  className="h-10 w-auto bg-white object-contain p-1"
-                />
-              ) : (
-                p.nome
-              )
-              return (
-                <li key={p.nome}>
-                  {p.url ? (
-                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                      {content}
-                    </a>
-                  ) : (
-                    content
-                  )}
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      )}
+        {s.partner.length > 0 && (
+          <div className="border-t border-white/15 pt-8 text-sm sm:col-span-2 lg:col-span-3">
+            <h2 className="eyebrow mb-5 text-white/70">Con il sostegno di</h2>
+            <ul className="flex flex-wrap items-center gap-x-10 gap-y-5">
+              {s.partner.map((p) => {
+                const content = (
+                  <>
+                    {p.logo?.asset && (
+                      <SanityNextImage
+                        src={imageUrl(p.logo)}
+                        alt=""
+                        // Dimensioni reali del file: con un rapporto fisso la CDN di Sanity ritaglia i loghi.
+                        {...imageSize(p.logo, { width: 160, height: 160 })}
+                        sizes="128px"
+                        className="h-16 w-auto shrink-0"
+                      />
+                    )}
+                    <span className="max-w-40 leading-snug">{p.nome}</span>
+                  </>
+                )
+                return (
+                  <li key={p.nome}>
+                    {p.url ? (
+                      <a
+                        href={p.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 underline-offset-4 hover:underline"
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <div className="flex items-center gap-3">{content}</div>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )}
+      </div>
 
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex flex-col gap-2 border-t border-white/15 py-6 text-sm text-white/70 lg:flex-row lg:justify-between lg:gap-8">
