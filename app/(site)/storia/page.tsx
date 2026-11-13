@@ -5,6 +5,7 @@ import { toGridPhotos } from "@/components/gallery/to-grid-photos"
 import { Band, PageHeader, Section, SectionTitle } from "@/components/page-header"
 import { RichText } from "@/components/rich-text"
 import { SanityImage } from "@/components/sanity-image"
+import { StoriaNav, type StoriaNavItem } from "@/components/storia-nav"
 import { getStoriaPage, type PeriodPerson } from "@/lib/content"
 import { imageAlt } from "@/lib/image"
 
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
   title: "Storia",
   description: "La storia del Corpo Musicale di Gardolo dal 1906 a oggi, con le foto storiche e l'elenco di maestri e presidenti.",
 }
+
+const chapterId = (i: number) => `capitolo-${i + 1}`
 
 function period(p: PeriodPerson) {
   if (!p.dal) return null
@@ -38,6 +41,14 @@ function PeopleList({ title, people }: { title: string; people?: PeriodPerson[] 
 export default async function StoriaPage() {
   const storia = await getStoriaPage()
   const foto = toGridPhotos(storia.fotoStoriche, "Foto storica del Corpo Musicale di Gardolo")
+  const hasPeople = Boolean(storia.maestri?.length || storia.presidenti?.length)
+
+  // Tappe della linea del tempo: i capitoli, poi le sezioni d'archivio.
+  const nav: StoriaNavItem[] = [
+    ...(storia.capitoli ?? []).map((c, i) => ({ id: chapterId(i), label: c.periodo })),
+    ...(foto.length ? [{ id: "foto-storiche", label: "Foto storiche", archivio: true }] : []),
+    ...(hasPeople ? [{ id: "maestri-e-presidenti", label: "Maestri e presidenti", archivio: true }] : []),
+  ]
 
   return (
     <>
@@ -45,15 +56,19 @@ export default async function StoriaPage() {
         {storia.intro}
       </PageHeader>
 
+      {nav.length > 1 && <StoriaNav items={nav} />}
+
       {storia.capitoli?.length ? (
         // Un capitolo per riga: periodo in grande a sinistra (fermo mentre si legge), testo a destra.
         <ol className="mx-auto max-w-6xl px-4 pb-6">
-          {storia.capitoli.map((c) => (
+          {storia.capitoli.map((c, i) => (
             <li
               key={`${c.periodo}-${c.titolo}`}
-              className="grid gap-x-16 gap-y-5 border-t py-12 first:border-t-0 first:pt-2 sm:py-16 sm:first:pt-4 lg:grid-cols-[17rem_1fr]"
+              id={chapterId(i)}
+              // scroll-mt e top: spazio per menu del sito (80px) + linea del tempo (~56px).
+              className="grid scroll-mt-36 gap-x-16 gap-y-5 border-t py-12 first:border-t-0 sm:scroll-mt-40 sm:py-16 lg:grid-cols-[17rem_1fr]"
             >
-              <header className="lg:sticky lg:top-28 lg:self-start">
+              <header className="lg:sticky lg:top-44 lg:self-start">
                 <p className="font-heading text-4xl leading-none font-semibold tracking-tight text-brand tabular-nums sm:text-5xl">
                   {c.periodo}
                 </p>
@@ -93,8 +108,8 @@ export default async function StoriaPage() {
         </Band>
       )}
 
-      {storia.maestri?.length || storia.presidenti?.length ? (
-        <section id="maestri-e-presidenti" className="scroll-mt-24" aria-labelledby="mp-titolo">
+      {hasPeople ? (
+        <section id="maestri-e-presidenti" className="scroll-mt-36 sm:scroll-mt-40" aria-labelledby="mp-titolo">
           <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
             <SectionTitle id="mp-titolo">Maestri e presidenti</SectionTitle>
             <div className="grid gap-12 md:grid-cols-2 md:gap-16">
