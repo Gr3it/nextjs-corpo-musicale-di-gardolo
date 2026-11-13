@@ -104,10 +104,9 @@ async function migrateSeed() {
     await create({ _id: "siteSettings", _type: "siteSettings", ...seed.siteSettings, partner })
   }
   await create({ _id: "homePage", _type: "homePage", ...seed.homePage })
-  await create({ _id: "chiSiamoPage", _type: "chiSiamoPage", ...seed.chiSiamoPage })
   await create({ _id: "corsiPage", _type: "corsiPage", ...seed.corsiPage })
   await create({ _id: "sostieniciPage", _type: "sostieniciPage", ...seed.sostieniciPage })
-  console.log(DRY ? "  (dry-run) 4 tipi evento, 5 pagine" : "  ok")
+  console.log(DRY ? "  (dry-run) 4 tipi evento, 4 pagine" : "  ok")
 
   console.log("\n▸ Eventi della vecchia pagina 'Prossimi eventi'")
   for (const e of seed.legacyEvents) {
@@ -165,6 +164,7 @@ async function migrateStoria() {
     fotoStoriche: fotoStoriche.filter(Boolean),
     maestri: seed.maestri,
     presidenti: seed.presidenti,
+    ...seed.bandaOggi,
   })
   console.log("  ok")
 }

@@ -100,6 +100,7 @@ async function storia(): Promise<Snapshot["storia"]> {
     fotoStoriche,
     maestri: seed.maestri,
     presidenti: seed.presidenti,
+    ...seed.bandaOggi,
   }
 }
 
@@ -121,7 +122,6 @@ async function main() {
     generatedAt: new Date().toISOString(),
     partner: seed.partners.map((p) => ({ nome: p.nome, logo: image(p.logoUrl) })),
     storia: storiaPage,
-    chiSiamo: seed.chiSiamoPage,
     corsi: seed.corsiPage,
     sostienici: seed.sostieniciPage,
     events: eventList,

@@ -56,7 +56,6 @@ export const structure: StructureResolver = (S) =>
             .title("Pagine")
             .items([
               singleton(S, "homePage", "Home"),
-              singleton(S, "chiSiamoPage", "Chi siamo"),
               singleton(S, "storiaPage", "Storia"),
               singleton(S, "corsiPage", "Corsi musicali"),
               singleton(S, "sostieniciPage", "Sostienici"),

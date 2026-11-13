@@ -180,12 +180,8 @@ export const storiaCapitoli: {
   },
 ]
 
-export const chiSiamoPage = {
-  intro: [
-    block(
-      "Il Corpo Musicale di Gardolo è un'associazione di promozione sociale nata nel 1906. Suoniamo in concerti, feste e cerimonie a Gardolo, a Trento e in tutto il Trentino, e ogni anno formiamo nuovi musicisti con i nostri corsi.",
-    ),
-  ],
+/** La banda oggi, in fondo alla pagina Storia. */
+export const bandaOggi = {
   maestro: { nome: "Maurizio Peterlana", bio: [block("Biografia del Maestro in arrivo. [DA COMPLETARE]")] },
   direttivo: [
     { _key: key(), nome: "Fabrizio Robol", ruolo: "Presidente" },

@@ -72,17 +72,11 @@ export const storiaPageQuery = defineQuery(
   `*[_id == "storiaPage"][0]{
     ...,
     capitoli[]{..., immagine${image}, testo[]{..., _type == "imageWithCaption" => ${image}}},
-    fotoStoriche[]${image}
+    fotoStoriche[]${image},
+    maestro{..., foto${image}}
   }`,
 )
 
-export const chiSiamoPageQuery = defineQuery(
-  `*[_id == "chiSiamoPage"][0]{
-    ...,
-    maestro{..., foto${image}},
-    formazioni[]{..., immagine${image}}
-  }`,
-)
 
 export const corsiPageQuery = defineQuery(
   `*[_id == "corsiPage"][0]{..., strumenti[]{..., immagine${image}}}`,

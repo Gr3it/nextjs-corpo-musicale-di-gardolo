@@ -5,7 +5,6 @@ const OLD = "/cmgSite/index.php"
 const legacyRedirects: [string, string][] = [
   [`${OLD}/storia/maestri-e-presidenti`, "/storia#maestri-e-presidenti"],
   [`${OLD}/storia`, "/storia"],
-  [`${OLD}/maestro`, "/chi-siamo"],
   [`${OLD}/corsi-musicali`, "/corsi"],
   [`${OLD}/galleria-fotografica/storiche`, "/storia#foto-storiche"],
   [`${OLD}/galleria-fotografica/:anno(\\d{4})`, "/galleria/:anno"],

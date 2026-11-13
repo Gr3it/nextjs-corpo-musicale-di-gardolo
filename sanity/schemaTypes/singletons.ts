@@ -108,6 +108,7 @@ export const storiaPage = defineType({
     { name: "testo", title: "Testo", default: true },
     { name: "foto", title: "Foto storiche" },
     { name: "persone", title: "Maestri e presidenti" },
+    { name: "oggi", title: "La banda oggi" },
   ],
   fields: [
     defineField({ name: "intro", title: "Introduzione", type: "text", rows: 3, group: "testo" }),
@@ -174,21 +175,11 @@ export const storiaPage = defineType({
       group: "persone",
       of: [defineArrayMember({ type: "periodPerson" })],
     }),
-  ],
-  preview: { prepare: () => ({ title: "Storia" }) },
-})
-
-export const chiSiamoPage = defineType({
-  name: "chiSiamoPage",
-  title: "Chi siamo",
-  type: "document",
-  icon: UsersIcon,
-  fields: [
-    defineField({ name: "intro", title: "Introduzione", type: "blockContent" }),
     defineField({
       name: "maestro",
-      title: "Il Maestro",
+      title: "Il Maestro di oggi",
       type: "object",
+      group: "oggi",
       fields: [
         defineField({ name: "nome", title: "Nome", type: "string" }),
         defineField({ name: "foto", title: "Foto", type: "imageWithCaption" }),
@@ -199,10 +190,12 @@ export const chiSiamoPage = defineType({
       name: "direttivo",
       title: "Direttivo e collaboratori",
       type: "array",
+      group: "oggi",
       of: [
         defineArrayMember({
           type: "object",
           name: "ruolo",
+          icon: UsersIcon,
           fields: [
             defineField({ name: "nome", title: "Nome", type: "string", validation: (r) => r.required() }),
             defineField({ name: "ruolo", title: "Ruolo", type: "string", validation: (r) => r.required() }),
@@ -211,26 +204,10 @@ export const chiSiamoPage = defineType({
         }),
       ],
     }),
-    defineField({
-      name: "formazioni",
-      title: "Formazioni (banda giovanile, gruppi...)",
-      type: "array",
-      of: [
-        defineArrayMember({
-          type: "object",
-          name: "formazione",
-          fields: [
-            defineField({ name: "nome", title: "Nome", type: "string", validation: (r) => r.required() }),
-            defineField({ name: "descrizione", title: "Descrizione", type: "text", rows: 3 }),
-            defineField({ name: "immagine", title: "Immagine", type: "imageWithCaption" }),
-          ],
-          preview: { select: { title: "nome", media: "immagine" } },
-        }),
-      ],
-    }),
   ],
-  preview: { prepare: () => ({ title: "Chi siamo" }) },
+  preview: { prepare: () => ({ title: "Storia" }) },
 })
+
 
 export const corsiPage = defineType({
   name: "corsiPage",
@@ -321,5 +298,5 @@ export const sostieniciPage = defineType({
   preview: { prepare: () => ({ title: "Sostienici" }) },
 })
 
-export const singletonTypes = [siteSettings, homePage, storiaPage, chiSiamoPage, corsiPage, sostieniciPage]
+export const singletonTypes = [siteSettings, homePage, storiaPage, corsiPage, sostieniciPage]
 export const singletonNames = new Set<string>(singletonTypes.map((t) => t.name))

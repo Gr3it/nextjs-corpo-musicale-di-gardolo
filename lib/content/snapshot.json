@@ -659,24 +659,6 @@
     "nome": "Fabrizio Robol",
     "dal": 2022
    }
-  ]
- },
- "chiSiamo": {
-  "intro": [
-   {
-    "_type": "block",
-    "_key": "seed1y",
-    "style": "normal",
-    "markDefs": [],
-    "children": [
-     {
-      "_type": "span",
-      "_key": "seed1z",
-      "text": "Il Corpo Musicale di Gardolo è un'associazione di promozione sociale nata nel 1906. Suoniamo in concerti, feste e cerimonie a Gardolo, a Trento e in tutto il Trentino, e ogni anno formiamo nuovi musicisti con i nostri corsi.",
-      "marks": []
-     }
-    ]
-   }
   ],
   "maestro": {
    "nome": "Maurizio Peterlana",

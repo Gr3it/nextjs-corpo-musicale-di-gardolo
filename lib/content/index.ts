@@ -19,7 +19,6 @@ import {
   snapshotGalleryYears,
 } from "./snapshot"
 import type {
-  ChiSiamoPage,
   CorsiPage,
   EventDetail,
   EventQuery,
@@ -153,14 +152,6 @@ export async function getStoriaPage(): Promise<StoriaPage> {
   cacheLife("hours")
   if (!client) return snapshot.storia
   return (await fetchContent<StoriaPage>(q.storiaPageQuery)) ?? {}
-}
-
-export async function getChiSiamoPage(): Promise<ChiSiamoPage> {
-  "use cache"
-  cacheTag(CONTENT_TAG)
-  cacheLife("hours")
-  if (!client) return snapshot.chiSiamo
-  return (await fetchContent<ChiSiamoPage>(q.chiSiamoPageQuery)) ?? {}
 }
 
 export async function getCorsiPage(): Promise<CorsiPage> {

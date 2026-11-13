@@ -42,12 +42,15 @@ export default async function StoriaPage() {
   const storia = await getStoriaPage()
   const foto = toGridPhotos(storia.fotoStoriche, "Foto storica del Corpo Musicale di Gardolo")
   const hasPeople = Boolean(storia.maestri?.length || storia.presidenti?.length)
+  const { maestro, direttivo } = storia
+  const hasToday = Boolean(maestro?.nome || direttivo?.length)
 
   // Tappe della linea del tempo: i capitoli, poi le sezioni d'archivio.
   const nav: StoriaNavItem[] = [
     ...(storia.capitoli ?? []).map((c, i) => ({ id: chapterId(i), label: c.periodo })),
     ...(foto.length ? [{ id: "foto-storiche", label: "Foto storiche", archivio: true }] : []),
     ...(hasPeople ? [{ id: "maestri-e-presidenti", label: "Maestri e presidenti", archivio: true }] : []),
+    ...(hasToday ? [{ id: "la-banda-oggi", label: "La banda oggi", archivio: true }] : []),
   ]
 
   return (
@@ -119,6 +122,47 @@ export default async function StoriaPage() {
           </div>
         </section>
       ) : null}
+
+      {/* Ultima tappa della linea del tempo: chi guida la banda adesso. */}
+      {hasToday && (
+        <section id="la-banda-oggi" className="scroll-mt-36 bg-panel sm:scroll-mt-40" aria-labelledby="oggi-titolo">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+            <SectionTitle id="oggi-titolo">La banda oggi</SectionTitle>
+            <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+              {maestro?.nome && (
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                  {maestro.foto?.asset && (
+                    <SanityImage
+                      image={maestro.foto}
+                      alt={`Il maestro ${maestro.nome}`}
+                      sizes="10rem"
+                      className="aspect-4/5 w-40 shrink-0 object-cover"
+                    />
+                  )}
+                  <div>
+                    <h3 className="eyebrow mb-3 text-brand">Il Maestro</h3>
+                    <p className="font-heading text-3xl font-semibold tracking-tight">{maestro.nome}</p>
+                    <RichText value={maestro.bio} className="mt-3 text-lg" />
+                  </div>
+                </div>
+              )}
+              {direttivo?.length ? (
+                <div>
+                  <h3 className="eyebrow mb-3 text-brand">Direttivo e collaboratori</h3>
+                  <ul className="divide-y border-y">
+                    {direttivo.map((d) => (
+                      <li key={`${d.nome}-${d.ruolo}`} className="flex items-baseline justify-between gap-4 py-3">
+                        <span className="text-lg">{d.nome}</span>
+                        <span className="shrink-0 text-muted-foreground">{d.ruolo}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   )
 }

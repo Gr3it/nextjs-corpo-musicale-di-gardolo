@@ -102,13 +102,9 @@ export type StoriaPage = {
   fotoStoriche?: SanityImage[]
   maestri?: PeriodPerson[]
   presidenti?: PeriodPerson[]
-}
-
-export type ChiSiamoPage = {
-  intro?: RichText
+  /** La banda oggi: maestro in carica e direttivo. */
   maestro?: { nome?: string; foto?: SanityImage; bio?: RichText }
   direttivo?: { nome: string; ruolo: string }[]
-  formazioni?: { nome: string; descrizione?: string; immagine?: SanityImage }[]
 }
 
 export type CorsiPage = {
@@ -128,7 +124,6 @@ export type Snapshot = {
   generatedAt: string
   partner: SiteSettings["partner"]
   storia: StoriaPage
-  chiSiamo: ChiSiamoPage
   corsi: CorsiPage
   sostienici: SostieniciPage
   events: EventDetail[]
