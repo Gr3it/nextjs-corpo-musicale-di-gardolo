@@ -2,7 +2,7 @@ import { cacheLife } from "next/cache"
 import Link from "next/link"
 import { Image as SanityNextImage } from "next-sanity/image"
 
-import { getSiteSettings } from "@/lib/content"
+import { getSiteSettings, getTrasparenzaDocs } from "@/lib/content"
 import { imageSize, imageUrl } from "@/lib/image"
 import { mainNav } from "@/lib/site"
 
@@ -16,7 +16,7 @@ async function currentYear() {
 }
 
 export async function Footer() {
-  const [s, year] = await Promise.all([getSiteSettings(), currentYear()])
+  const [s, docs, year] = await Promise.all([getSiteSettings(), getTrasparenzaDocs(), currentYear()])
   return (
     <footer className="mt-auto bg-brand text-white">
       {/* Su desktop il logo occupa due righe: a destra le tre colonne e, sotto, i sostenitori. */}
@@ -124,9 +124,12 @@ export async function Footer() {
             {s.partitaIva && ` · P.IVA ${s.partitaIva}`}
           </p>
           <p className="flex gap-5">
-            <Link href="/sostienici#trasparenza" className="hover:underline">
-              Trasparenza
-            </Link>
+            {/* Come la sezione in Sostienici: solo se ci sono documenti. */}
+            {docs.length > 0 && (
+              <Link href="/sostienici#trasparenza" className="hover:underline">
+                Trasparenza
+              </Link>
+            )}
             <Link href="/studio" className="hover:underline">
               Area riservata
             </Link>

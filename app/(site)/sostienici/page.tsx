@@ -7,7 +7,7 @@ import { getSiteSettings, getSostieniciPage, getTrasparenzaDocs } from "@/lib/co
 
 export const metadata: Metadata = {
   title: "Sostienici",
-  description: "Sostieni il Corpo Musicale di Gardolo con il 5x1000 e consulta i documenti di trasparenza.",
+  description: "Sostieni il Corpo Musicale di Gardolo con il 5x1000.",
 }
 
 const categorie: Record<string, string> = {
@@ -52,12 +52,13 @@ export default async function SostieniciPage() {
         </Section>
       ) : null}
 
-      <section id="trasparenza" className="scroll-mt-24 border-t" aria-labelledby="trasparenza-titolo">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
-          <SectionTitle id="trasparenza-titolo" eyebrow="Documenti">
-            Trasparenza
-          </SectionTitle>
-          {docs.length > 0 ? (
+      {/* Compare solo quando nello Studio c'è almeno un documento. */}
+      {docs.length > 0 && (
+        <section id="trasparenza" className="scroll-mt-24 border-t" aria-labelledby="trasparenza-titolo">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+            <SectionTitle id="trasparenza-titolo" eyebrow="Documenti">
+              Trasparenza
+            </SectionTitle>
             <ul className="divide-y border-y">
               {docs.map((d) => (
                 <li key={d._id}>
@@ -82,11 +83,9 @@ export default async function SostieniciPage() {
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-muted-foreground">I documenti saranno pubblicati qui.</p>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
     </>
   )
 }
